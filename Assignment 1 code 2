@@ -1,0 +1,116 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+start1 = 1
+start2 = 1
+x1 = start1
+x2 = start2
+bracelet = np.array([x1, x2])
+for n in range(0,60):
+    new = (x1+x2)%10
+    if x2==start1 and new == start2:
+        sp1 = n+1
+        for i in range(n, 60):
+            bracelet = np.append(bracelet, new)
+        break
+    else:
+        bracelet = np.append(bracelet, new)
+        x1 = x2
+        x2 = new
+        
+start1 = 2
+start2 = 2
+y1 = start1
+y2 = start2
+bracelet2 = np.array([y1, y2])
+for n in range(0,60):
+    new = (y1+y2)%10
+    if y2==start1 and new == start2:
+        sp2 = n+1
+        for i in range(n, 60):
+            bracelet2 = np.append(bracelet2, new)
+        break
+    else:
+        bracelet2 = np.append(bracelet2, new)
+        y1 = y2
+        y2 = new
+
+start1 = 5
+start2 = 5
+z1 = start1
+z2 = start2
+bracelet3 = np.array([z1, z2])
+for n in range(0,60):
+    new = (z1+z2)%10
+    if z2==start1 and new == start2:
+        sp3 = n+1
+        for i in range(n, 60):
+            bracelet3 = np.append(bracelet3, new)
+        break
+    else:
+        bracelet3 = np.append(bracelet3, new)
+        z1 = z2
+        z2 = new
+
+start1 = 0
+start2 = 0
+z1 = start1
+z2 = start2
+bracelet4 = np.array([z1, z2])
+for n in range(0,60):
+    new = (z1+z2)%10
+    if z2==start1 and new == start2:
+        sp4 = n+1
+        for i in range(n, 60):
+            bracelet4 = np.append(bracelet4, new)
+        break
+    else:
+        bracelet4 = np.append(bracelet4, new)
+        z1 = z2
+        z2 = new
+
+start1 = 1
+start2 = 3
+z1 = start1
+z2 = start2
+bracelet5 = np.array([z1, z2])
+for n in range(0,60):
+    new = (z1+z2)%10
+    if z2==start1 and new == start2:
+        sp5 = n+1
+        for i in range(n, 60):
+            bracelet5 = np.append(bracelet5, new)
+        break
+    else:
+        bracelet5 = np.append(bracelet5, new)
+        z1 = z2
+        z2 = new
+    
+start1 = 2
+start2 = 6
+z1 = start1
+z2 = start2
+bracelet6 = np.array([z1, z2])
+for n in range(0,60):
+    new = (z1+z2)%10
+    if z2==start1 and new == start2:
+        sp6 = n+1
+        for i in range(n, 60):
+            bracelet6 = np.append(bracelet6, new)
+        break
+    else:
+        bracelet6 = np.append(bracelet6, new)
+        z1 = z2
+        z2 = new
+
+print(sp1+sp2+sp3+sp4+sp5+sp6)
+x = np.linspace(0, 61, 62)
+plt.figure(figsize=(16,10))
+plt.plot(x, bracelet, '-bo')
+plt.plot(x, bracelet2, '-ro')
+plt.plot(x, bracelet3, '-go')
+plt.plot(x, bracelet4, '-yo')
+plt.plot(x, bracelet5, '-mo')
+plt.plot(x, bracelet6, '-co')
+plt.grid()
+plt.show()
