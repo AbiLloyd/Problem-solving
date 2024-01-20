@@ -1,0 +1,37 @@
+#Try different starting points
+#Find number of new bracelets
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+NumBracelets = 1
+bracelet = np.array([0, 0])
+previous = "true"
+#Cycle through all starting points
+print("The different starting points are:")
+print(0, 0)
+for x in range(0,10):
+    for y in range(0,10):
+        #Look through previous bracelets to see if x,y is already in a bracelet
+        for n in range(0, len(bracelet)-1):
+            if x==bracelet[n] and y==bracelet[n+1]:
+                previous = "true"
+        #If not already been seen it must belong to a new bracelet
+        if previous != "true":
+            print(x,y)
+            NumBracelets = NumBracelets + 1
+            start1 = x
+            start2 = y
+            x1 = start1
+            x2 = start2
+            bracelet = np.append(bracelet, x1)
+            bracelet = np.append(bracelet, x2)
+            for n in range(0,100):
+                new = (x1+x2)%10
+                if x2!=start1 or new != start2:   
+                    bracelet = np.append(bracelet, new)
+                    x1 = x2
+                    x2 = new
+        previous = "false"
+                
+print("There are", NumBracelets, "different bracelets") 
