@@ -1,0 +1,12 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+x1 = 1
+x2 = 5
+bracelet = np.array([x1, x2])
+for n in range(0,60):
+    new = (x1+x2)%10
+    bracelet = np.append(bracelet, new)
+    x1 = x2
+    x2 = new
+print(bracelet)
