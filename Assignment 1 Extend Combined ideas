@@ -1,0 +1,61 @@
+#Combine ideas
+import numpy as np
+import matplotlib.pyplot as plt
+
+mod = int(input("Input modulus: "))
+digits = int(input("Input number of digits: "))
+NumBracelets = 1
+bracelet = np.array([0, 0])
+previous = "true"
+#Cycle through all starting points
+if mod<digits:
+    for x in range(0,mod):
+        for y in range(0,mod):
+            #Look through previous bracelets to see if x,y is already in a bracelet
+            for n in range(0, len(bracelet)-1):
+                if x==bracelet[n] and y==bracelet[n+1]:
+                    previous = "true"
+            #If not already been seen it must belong to a new bracelet
+            if previous != "true":
+                NumBracelets = NumBracelets + 1
+                x1 = x
+                x2 = y
+                bracelet = np.append(bracelet, x1)
+                bracelet = np.append(bracelet, x2)
+                for n in range(0,digits*digits):
+                    new = (x1+x2)%mod
+                    if (x2!=x or new != y) and previous!="true":   
+                        bracelet = np.append(bracelet, new)
+                        x1 = x2
+                        x2 = new
+                    else:
+                        previous = "true"
+            previous = "false"
+            bracelet = np.append(bracelet, digits*digits*10)
+    NumBracelets = NumBracelets+((digits-mod)*(digits-mod)+2*mod*(digits-mod))
+else:
+    for x in range(0,digits):
+        for y in range(0,digits):
+            #Look through previous bracelets to see if x,y is already in a bracelet
+            for n in range(0, len(bracelet)-1):
+                if x==bracelet[n] and y==bracelet[n+1]:
+                    previous = "true"
+            #If not already been seen it must belong to a new bracelet
+            if previous != "true":
+                NumBracelets = NumBracelets + 1
+                x1 = x
+                x2 = y
+                bracelet = np.append(bracelet, x1)
+                bracelet = np.append(bracelet, x2)
+                for n in range(0,digits*digits):
+                    new = (x1+x2)%mod
+                    if (x2!=x or new != y) and previous!="true":   
+                        bracelet = np.append(bracelet, new)
+                        x1 = x2
+                        x2 = new
+                    else:
+                        previous = "true"
+            previous = "false"
+            bracelet = np.append(bracelet, digits*digits*10)          
+        
+print("There are", NumBracelets, " different bracelets")
