@@ -1,0 +1,155 @@
+##Check nxn
+import numpy as np
+import matplotlib.pyplot as plt
+import scipy.linalg as LA
+rng = np.random.default_rng()
+import random as r
+
+# nxn matrix size
+for n in range(4, 20):
+    dets = []
+    #Repetitions of nxn matrix
+    for rep in range(0,10000):
+        A = rng.integers(8,9, (n,n))
+        count = 0
+        count1 = 0
+        count2 = 0
+        pairs = []
+        #One nxn matrix
+        for z in range(0,round(((n*n)+1)/2)):
+            if count < n*n and count%2==0:
+                # Pick random number for one
+                seen = True
+                found = False
+                if int(count) == int((n*n)-1):
+                    seen = False
+                    for x in range(0, n):
+                        for y in range(0, n):
+                            if A[x, y] == 8:
+                                A[x, y] = 1
+                                
+                prow = []
+                for x in range(0, n):
+                      prow = np.append(prow, x)
+                while seen == True:
+                    if len(prow)>0:
+                        row = int(np.random.choice(prow,1))
+                    else:
+                        seen = False
+                    possible = []
+                    for x in range(0, n):
+                        possible = np.append(possible, x)
+                    for i in range (0, int((len(pairs))/2)):
+                        if pairs[2*i] == row:
+                            possible = np.setdiff1d(possible, [pairs[2*i+1]])
+                    if len(possible) > 0:
+                        column = int(np.random.choice(possible,1))
+                        seen = False
+                        found = True
+                    if len(possible) == 0:
+                        prow = np.setdiff1d(prow, [row])
+                if found == True:
+                    A[row, column] = 1
+                    pairs = np.append(pairs, row)
+                    pairs = np.append(pairs, column)
+                    pairs = np.append(pairs, 100)
+                    pairs = np.append(pairs, 100)
+                    count = count +1
+                    count1 = count1 +1
+
+            if count < n*n and count%2==1:
+                #Follow strategy for zero
+                if n%2==1 and column == 0:
+                    random = False
+                    for x in range(0, n):
+                        if A[x,0] == 8 and random == False:
+                            A[x,0] = 0
+                            pairs = np.append(pairs, x)
+                            pairs = np.append(pairs, 0)
+                            count = count +1
+                            pairs = np.append(pairs, 100)
+                            pairs = np.append(pairs, 100)
+                            random = True
+                    if random == False:
+                        found = False
+                        for x in range(0, n):
+                            for y in range(1,n):
+                                if y%2==0 and found != True:
+                                    if A[x,y] ==8 and A[x,y-1]==8:
+                                        A[x,y] = 0
+                                        pairs = np.append(pairs, x)
+                                        pairs = np.append(pairs, y)
+                                        count = count +1
+                                        pairs = np.append(pairs, 100)
+                                        pairs = np.append(pairs, 100)
+                                        found = True
+                                if y%2==1 and found!=True:
+                                    if A[x,y] ==8 and A[x,y+1]==8:
+                                        A[x,y] = 0
+                                        pairs = np.append(pairs, x)
+                                        pairs = np.append(pairs, y)
+                                        count = count +1
+                                        pairs = np.append(pairs, 100)
+                                        pairs = np.append(pairs, 100)
+                                        found = True
+                        if found == False:
+                            print("problem")
+                            print(A, pairs)
+                if (n%2==1 and column%2 == 0 and column != 0) or (n%2== 0 and column%2 == 1):
+                    nowcolumn = column -1
+                    if A[row, nowcolumn] == 8:
+                        A[row, nowcolumn] = 0
+                        pairs = np.append(pairs, row)
+                        pairs = np.append(pairs, nowcolumn)
+                        count = count +1
+                        pairs = np.append(pairs, 100)
+                        pairs = np.append(pairs, 100)
+                    else:
+                        random = False
+                        for x in range(0, n):
+                            for y in range(0, n):
+                                if A[y,x] == 8 and random == False:
+                                    A[y,x] = 0
+                                    pairs = np.append(pairs, y)
+                                    pairs = np.append(pairs, x)
+                                    count = count +1
+                                    pairs = np.append(pairs, 100)
+                                    pairs = np.append(pairs, 100)
+                                    random = True
+                if (n%2==1 and column%2 == 1) or (n%2== 0 and column%2 == 0):
+                    nowcolumn = column +1
+                    if A[row, nowcolumn] == 8:
+                        A[row, nowcolumn] = 0
+                        pairs = np.append(pairs, row)
+                        pairs = np.append(pairs, nowcolumn)
+                        count = count +1
+                        pairs = np.append(pairs, 100)
+                        pairs = np.append(pairs, 100)
+                    else:
+                        random = False
+                        for x in range(0, n):
+                            for y in range(0, n):
+                                if A[y,x] == 8 and random == False:
+                                    A[y,x] = 0
+                                    pairs = np.append(pairs, y)
+                                    pairs = np.append(pairs, x)
+                                    count = count +1
+                                    pairs = np.append(pairs, 100)
+                                    pairs = np.append(pairs, 100)
+                                    random = True
+            
+            count2 = count2 +1  
+        dets = np.append(dets, LA.det(A))
+        if int(LA.det(A)) != 0:
+            print(A, pairs)
+    nonzero = False
+    for x in range(0, len(dets)):
+        x = int(x)
+        if int(dets[x]) != 0:
+            nonzero = True
+    if nonzero != True:
+        print(n, "x", n, ":")
+        print("All determinants are 0")
+    if nonzero == True:   
+        print(n, "x", n, ":")
+        print("There is a non-zero determinant!")
