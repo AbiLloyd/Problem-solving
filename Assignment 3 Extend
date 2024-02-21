@@ -1,0 +1,67 @@
+#Other numbers
+import numpy as np
+import matplotlib.pyplot as plt
+
+finals = []
+try:
+    for reps in range(0,10000):
+        hat = []
+        for x in range(1, 41):
+            hat = np.append(hat, x)
+
+        for y in range(0, 39): 
+            where = "top"
+            x1 = np.random.choice(hat,1)
+            for z in range(0, len(hat)):
+                if int(hat[z]) == x1:
+                    index1 = z
+            hat = np.delete(hat, index1)
+            x2 = np.random.choice(hat,1)
+            for z in range(0, len(hat)):
+                if int(hat[z]) == x2:
+                    index2 = z
+            hat = np.delete(hat, index2)
+            where = "bottom"
+            if x1>=x2:
+                x = x1-x2
+                hat = np.append(hat, x)
+            else:
+                x = x2-x1
+                hat = np.append(hat, x)
+        finals = np.append(finals, hat[0])
+        print(hat[0])
+except IndexError:
+    print("error")
+    print(hat)
+    print(x1, x2)
+    print(where)
+    
+
+Max = int(max(finals)+1) 
+fig,(ax1, ax2) = plt.subplots(2,1)
+bins = np.arange(0, Max)-0.5
+prob, a1, a2 = ax1.hist(finals, bins=bins, density=True, color='purple')
+ax1.set_ylabel('Probability')
+ax1.set_title('Probability of the final piece of paper for 40 numbers')
+plt.subplots_adjust(hspace=0.1)
+plt.setp(ax1.get_xticklabels(), visible=False)
+
+p = ax1.patches
+for patch in p:
+    x_coord, y_coord = patch.get_xy() 
+    width = patch.get_width()  
+    height = patch.get_height()  
+    print(f"Bar at ({x_coord:.2f}, {y_coord:.2f}), Width: {width:.2f}, Height: {height:.2f}")
+
+cprob, b1, b2 = ax2.hist(finals, bins, density=True, cumulative=True, histtype='step', color = 'b')
+ax2.set_ylabel('Cumulative probability')
+ax2.set_yticks(np.arange(0, 1.01, 0.1))
+ax2.set_ylim([0,1])
+ax2.set_xlabel('Final number')
+ans = np.searchsorted(cprob, 0.5)
+
+for X in [ax1, ax2]:
+    X.set_xticks(range(0, Max, 5))
+    X.set_xlim(0, Max-2)
+    X.grid('on')
+plt.show()
