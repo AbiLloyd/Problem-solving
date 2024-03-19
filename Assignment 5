@@ -1,0 +1,45 @@
+#Find the number in a space x steps right and y steps down
+import numpy as np
+import matplotlib.pyplot as plt
+import random
+
+x = int(input("How many steps right would you like to take? (Negative moves left)"))
+y = int(input("How many steps down would you like to take? (Negative moves up)"))
+positivex = abs(x)
+positivey = abs(y)
+difference = abs(x-y)
+num = int()
+
+if x>=0 and y>=0:
+    if x==y:
+        num = np.power(2*x+1, 2)
+    if x>y:
+        num = np.power(2*y+1, 2) + difference
+    if y>x:
+        num = np.power(2*y+1, 2) - difference
+
+if x<0 and y>0:
+    if x==y:
+        num = np.power(2*y+1, 2) - (2*y+1) + 1
+    if positivex > positivey:
+        num = np.power(2*positivex+1, 2) - (2*positivex+1) + 1 - difference
+    if positivey > positivex:
+        num = np.power(2*positivey+1, 2) - (2*postivey+1) + 1 + difference
+
+if x>0 and y<0:
+    if x==y:
+        num = np.power(2*x+1, 2) - 3*(2*x+1) + 3
+    if positivex > positivey:
+        num = np.power(2*x+1, 2) - 3*(2*x+1) + 3 - difference
+    if positivey > positivex:
+        num = np.power(2*positivey+1, 2) - 3*(2*postivey+1) + 3 + difference
+        
+if x<0 and y<0:
+    if x==y:
+        num = np.power(2*positivex+1, 2) - 2*(2*postivex+1) + 2
+    if positivex > positivey:
+        num = np.power(2*positivex+1, 2) - 2*(2*positivex+1) + 2 + difference
+    if positivey > positivex:
+        num = np.power(2*positivex+1, 2) - 2*(2*positivex+1) + 2 - difference
+
+print("The number in that space is ", num)
