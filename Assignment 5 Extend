@@ -1,0 +1,36 @@
+#Generate corners and probability of landing on corners for each number of turns taken
+import numpy as np
+import matplotlib.pyplot as plt
+import random
+
+corners = []
+
+for x in range(1, 16):
+    corners = np.append(corners, np.power(2*x+1, 2) - 3*(2*x+1) + 3)
+    corners = np.append(corners, np.power(2*x+1, 2) - 2*(2*x+1) + 2)
+    corners = np.append(corners, np.power(2*x+1, 2) - (2*x+1) + 1)
+    corners = np.append(corners, np.power(2*x+1, 2))
+
+print(corners)
+
+probs = []
+for turns in range(1, 101):
+    Land = 0
+    Total = 0
+    for y in range(0, 1000000):
+        Place = 1
+        Total = Total + 1
+        for z in range(0, turns):
+            x = random.choice([1,2])
+            Place = Place + x
+        for c in corners:
+            if Place == c:
+                Land = Land + 1
+    probs = np.append(probs, Land/Total)
+    print(turns, Land/Total)
+
+x = np.linspace(1, 100, 100)
+plt.figure(figsize=(16,10))
+plt.plot(x, probs, '-bo')
+plt.grid()
+plt.show()
