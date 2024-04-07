@@ -1,0 +1,131 @@
+#Generate combinations
+#Take out sort command for second use
+
+import numpy as np
+import matplotlib.pyplot as plt
+import random
+
+a = 1
+b = 1
+c = 9
+
+types = []
+finish = False
+ABC = [a, b, c]
+ABC = np.sort(ABC)
+
+for x in range(0, a):
+    types = np.append(types, "A")
+
+for x in range(0, b):
+    types = np.append(types, "B")
+
+for x in range(0, c):
+    types = np.append(types, "C")
+
+newcombo = 0
+while finish == False:
+    newcombo = newcombo + 1
+    abc = []
+    choice1 = np.random.choice(types, 1)
+    if choice1 == "A":
+        a = a-1
+        types = []
+        if a>=1:
+            for x in range(0, a):
+                types = np.append(types, "A")
+        if b>=1:
+            for x in range(0, b):
+                types = np.append(types, "B")
+        if c>=1:
+            for x in range(0, c):
+                types = np.append(types, "C")
+                    
+        choice2 = np.random.choice(types, 1)
+        if choice2 == "A":
+            a = a+1
+        if choice2 == "B":
+            b = b-1
+            c = c+2
+        if choice2 == "C":
+            b = b+2
+            c = c-1
+    if choice1 == "B":
+        b = b-1
+        types = []
+        if a>=1:
+            for x in range(0, a):
+                types = np.append(types, "A")
+        if b>=1:
+            for x in range(0, b):
+                types = np.append(types, "B")
+        if c>=1:
+            for x in range(0, c):
+                types = np.append(types, "C")
+                    
+        choice2 = np.random.choice(types, 1)
+        if choice2 == "A":
+            a = a-1
+            c = c+2
+        if choice2 == "B":
+            b = b+1
+        if choice2 == "C":
+            a = a+2
+            c = c-1
+    if choice1 == "C":
+        c = c-1
+        types = []
+        if a>=1:
+            for x in range(0, a):
+                types = np.append(types, "A")
+        if b>=1:
+            for x in range(0, b):
+                types = np.append(types, "B")
+        if c>=1:
+            for x in range(0, c):
+                types = np.append(types, "C")
+                    
+        choice2 = np.random.choice(types, 1)
+        if choice2 == "A":
+            a = a-1
+            b = b+2
+        if choice2 == "B":
+            a = a+2
+            b = b-1
+        if choice2 == "C":
+            c = c+1
+    
+    types = []
+    if a>0:
+        for x in range(0, a):
+            types = np.append(types, "A")
+    if b>0:
+        for x in range(0, b):
+            types = np.append(types, "B")
+    if c>0:
+        for x in range(0, c):
+            types = np.append(types, "C")
+        
+    if (a==0 and b==0) or (a==0 and c==0) or (b==0 and c==0) or newcombo>10000:
+        finish = True
+    
+    abc = np.append(abc, a)
+    abc = np.append(abc, b)
+    abc = np.append(abc, c)
+    #abc = np.sort(abc)
+    
+    y = int(len(ABC)/3)
+    seen = False
+    for x in range(0, y):
+        if abc[0]==ABC[3*x]:
+            if abc[1]==ABC[3*x+1]:
+                if abc[2]==ABC[3*x+2]:
+                    seen = True
+    if seen ==False:
+        ABC = np.append(ABC, [abc])
+
+count = 0
+for x in range(0, int(len(ABC)/3)):
+    print(ABC[3*x], ABC[3*x+1], ABC[3*x+2])
+    count = count+1
+print(count)
