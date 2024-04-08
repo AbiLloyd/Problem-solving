@@ -1,0 +1,15 @@
+collisions = [0, 0, 1, 531, 16, 51, 617, 258, 443, 725, 742, 827, 880, 903, 915, 924]
+threes = [0, 531, 617, 725, 880, 924]
+nonthrees = [0, 0, 1, 16, 51, 258, 443, 742, 827, 903, 915]
+x = np.linspace(0, 15, 16)
+y = [0, 3, 6, 9, 12, 15]
+z = [0, 1, 2, 4, 5, 7, 8, 10, 11, 13, 14]
+plt.figure(figsize=(16,10))
+plt.plot(z, nonthrees, '-go', label="Not multiples of three")
+plt.plot(y, threes, '-ro', label="Multiples of three")
+plt.plot(x, collisions, 'bo')
+plt.legend()
+plt.xlabel("Total number of particles")
+plt.ylabel("Average number of collisions")
+plt.grid()
+plt.show()
