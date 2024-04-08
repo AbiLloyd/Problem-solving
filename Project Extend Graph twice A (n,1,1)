@@ -1,6 +1,5 @@
 #Extend: If one type (e.g. A) is twice as likely to collide with another particle
 #Calculate probabilities for specified starting point a, b, c in finite time
-#Amended for randomised starting positions
 import numpy as np
 import matplotlib.pyplot as plt
 import random
