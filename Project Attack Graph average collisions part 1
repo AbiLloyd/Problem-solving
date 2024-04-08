@@ -1,0 +1,122 @@
+#Average number of collision for x total number of particles
+import numpy as np
+import matplotlib.pyplot as plt
+import random
+
+reps = 10000
+total = 15
+loopall = []
+for z in range(0, reps):
+    inia = random.randint(0, total)
+    inib = random.randint(0, total - inia)
+    inic = total-inia-inib
+    a = inia
+    b = inib
+    c = inic
+    types = []
+    finish = False
+    loops = 0
+
+    if a>=1:
+        for x in range(0, a):
+            types = np.append(types, "A")
+
+    if b>=1:
+        for x in range(0, b):
+            types = np.append(types, "B")
+
+    if c>=1:
+        for x in range(0, c):
+            types = np.append(types, "C")
+            
+    while finish == False:
+        loops = loops + 1
+        choice1 = np.random.choice(types, 1)
+        if choice1 == "A":
+            a = a-1
+            types = []
+            if a>=1:
+                for x in range(0, a):
+                    types = np.append(types, "A")
+            if b>=1:
+                for x in range(0, b):
+                    types = np.append(types, "B")
+            if c>=1:
+                for x in range(0, c):
+                    types = np.append(types, "C")
+                    
+            choice2 = np.random.choice(types, 1)
+            if choice2 == "A":
+                a = a+1
+            if choice2 == "B":
+                b = b-1
+                c = c+2
+            if choice2 == "C":
+                b = b+2
+                c = c-1
+        if choice1 == "B":
+            b = b-1
+            types = []
+            if a>=1:
+                for x in range(0, a):
+                    types = np.append(types, "A")
+            if b>=1:
+                for x in range(0, b):
+                    types = np.append(types, "B")
+            if c>=1:
+                for x in range(0, c):
+                    types = np.append(types, "C")
+                    
+            choice2 = np.random.choice(types, 1)
+            if choice2 == "A":
+                a = a-1
+                c = c+2
+            if choice2 == "B":
+                b = b+1
+            if choice2 == "C":
+                a = a+2
+                c = c-1
+        if choice1 == "C":
+            c = c-1
+            types = []
+            if a>=1:
+                for x in range(0, a):
+                    types = np.append(types, "A")
+            if b>=1:
+                for x in range(0, b):
+                    types = np.append(types, "B")
+            if c>=1:
+                for x in range(0, c):
+                    types = np.append(types, "C")
+                    
+            choice2 = np.random.choice(types, 1)
+            if choice2 == "A":
+                a = a-1
+                b = b+2
+            if choice2 == "B":
+                a = a+2
+                b = b-1
+            if choice2 == "C":
+                c = c+1
+                
+        if a==total or b==total or c==total:
+            finish = True
+            
+        types = []
+        if a>0:
+            for x in range(0, a):
+                types = np.append(types, "A")
+        if b>0:
+            for x in range(0, b):
+                types = np.append(types, "B")
+        if c>0:
+            for x in range(0, c):
+                types = np.append(types, "C")
+        if loops >=1000:
+            finish = True
+    loopall = np.append(loopall, loops)
+     
+numcollisions = 0
+for x in loopall:
+    numcollisions = numcollisions +x
+print("The average number of collisions is ", numcollisions/reps)
