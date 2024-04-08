@@ -1,0 +1,153 @@
+#Extend: If one type (e.g. A) is twice as likely to collide with another particle
+#Calculate probabilities for specified starting point a, b, c in finite time
+#Amended for randomised starting positions
+import numpy as np
+import matplotlib.pyplot as plt
+import random
+
+reps = 10000
+probsA = []
+probsB = []
+probsC = []
+probsNA = []
+
+for n in range(1, 16):
+    print(n)
+    countA = 0
+    countB = 0
+    countC = 0
+    countNA = 0
+    for z in range(1, reps):
+        a = n
+        b = 1
+        c = 1
+        types = []
+        finish = False
+        loops = 0
+        if a>0:
+            for x in range(0, 2*a):
+                types = np.append(types, "A")
+        if b>0:
+            for x in range(0, b):
+                types = np.append(types, "B")
+        if c>0:
+            for x in range(0, c):
+                types = np.append(types, "C")
+        
+        nocollision = False
+        while finish == False:
+            loops = loops + 1
+            choice1 = np.random.choice(types, 1)
+            if choice1 == "A":
+                a = a-1
+                types = []
+                if a>=1:
+                    for x in range(0, 2*a):
+                        types = np.append(types, "A")
+                if b>=1:
+                    for x in range(0, b):
+                        types = np.append(types, "B")
+                if c>=1:
+                    for x in range(0, c):
+                        types = np.append(types, "C")
+                    
+                choice2 = np.random.choice(types, 1)
+                if choice2 == "A":
+                    a = a+1
+                if choice2 == "B":
+                    b = b-1
+                    c = c+2
+                if choice2 == "C":
+                    b = b+2
+                    c = c-1
+            if choice1 == "B":
+                b = b-1
+                types = []
+                if a>=1:
+                    for x in range(0, 2*a):
+                        types = np.append(types, "A")
+                if b>=1:
+                    for x in range(0, b):
+                        types = np.append(types, "B")
+                if c>=1:
+                    for x in range(0, c):
+                        types = np.append(types, "C")
+                    
+                choice2 = np.random.choice(types, 1)
+                if choice2 == "A":
+                    a = a-1
+                    c = c+2
+                if choice2 == "B":
+                    b = b+1
+                if choice2 == "C":
+                    a = a+2
+                    c = c-1
+            if choice1 == "C":
+                c = c-1
+                types = []
+                if a>=1:
+                    for x in range(0, 2*a):
+                        types = np.append(types, "A")
+                if b>=1:
+                    for x in range(0, b):
+                        types = np.append(types, "B")
+                if c>=1:
+                    for x in range(0, c):
+                        types = np.append(types, "C")
+                    
+                choice2 = np.random.choice(types, 1)
+                if choice2 == "A":
+                    a = a-1
+                    b = b+2
+                if choice2 == "B":
+                    a = a+2
+                    b = b-1
+                if choice2 == "C":
+                    c = c+1
+
+            if (a==0 and b==0) or (a==0 and c==0) or (b==0 and c==0):
+                finish = True
+            types = []
+            if a>0:
+                for x in range(0, a):
+                    types = np.append(types, "A")
+            if b>0:
+                for x in range(0, b):
+                    types = np.append(types, "B")
+            if c>0:
+                for x in range(0, c):
+                    types = np.append(types, "C")
+            if loops >1000:
+                finish = True
+                nocollision = True
+          
+        if nocollision == False:
+            if types[0]=="A":
+                countA = countA+1
+            if types[0] == "B":
+                countB = countB +1
+            if types[0] == "C":
+                countC = countC +1
+        if nocollision == True:
+            countNA = countNA +1
+            
+    probsA = np.append(probsA, countA/reps)
+    probsB = np.append(probsB, countB/reps)
+    probsC = np.append(probsC, countC/reps)
+    probsNA = np.append(probsNA, countNA/reps)
+
+print(probsA)
+print(probsB)
+print(probsC)
+print(probsNA)
+x = np.linspace(1, 15, 15)
+plt.figure(figsize=(16,10))
+plt.plot(x, probsA, '-bo', label="Type A")
+plt.plot(x, probsB, '-go', label="Type B")
+plt.plot(x, probsC, '-ro', label="Type C")
+plt.plot(x, probsNA, '-bx', label="Process didn't reach the end")
+plt.grid()
+plt.legend()
+plt.xlabel("Number of particles of type A at the start")
+plt.ylabel("Probability")
+plt.show()
